@@ -247,7 +247,7 @@ bool BFS(vector<linked_list> adj, unordered_map<Key, bool> visited, node* src, n
 }
 
 
-void printShortestDistance(vector<linked_list> adj, node* src, node* dest)
+void printShortestDistance(vector<linked_list> adj, list<node*> &path, node* src, node* dest)
 {
 	unordered_map < Key, node*> pred;
 	unordered_map < Key, int> dist;
@@ -257,7 +257,7 @@ void printShortestDistance(vector<linked_list> adj, node* src, node* dest)
 			cout << "Impossible Path" << endl;
 			return;
 		}
-		list<node*> path;
+		list<node*> pathTMP;
 		node* crawl = dest;
 		path.push_back(crawl);
 		Key k = { dest->row, dest->col };
@@ -272,10 +272,11 @@ void printShortestDistance(vector<linked_list> adj, node* src, node* dest)
 
 		cout << "Path is\n";
 		node* n;
-		while(!path.empty())
+		pathTMP = path; 
+		while(!pathTMP.empty())
 		{
-			n = path.front();
-			path.pop_front();
+			n = pathTMP.front();
+			pathTMP.pop_front();
 			if (n->row == -1)
 			{
 				break;
@@ -283,6 +284,103 @@ void printShortestDistance(vector<linked_list> adj, node* src, node* dest)
 			cout << "(" << n->row << ", " << n->col << ") ";
 		}
 		cout << endl;
+}
+
+void fillMaze(Mat img_bgr, list<node*> path)
+{
+	node* n = path.front();
+	int prevR = n->row;
+	int prevC = n->col;
+	n = path.front();
+	path.pop_front();
+	img_bgr.at<Vec3b>(prevR, prevC)[0] = 0;
+	img_bgr.at<Vec3b>(prevR, prevC)[1] = 0;
+	img_bgr.at<Vec3b>(prevR, prevC)[2] = 255;
+	int r;
+	int c;
+	while (!path.empty())
+	{
+		cout << "prevR: " << prevR << " prevC: " << prevC << endl;
+		n = path.front();
+		path.pop_front();
+		r = n->row;
+		c = n->col;
+		cout << "r: " << r << " c: " << c << endl;
+		if (n->row == -1)
+		{
+			break;
+		}
+
+		if (prevR > r)
+		{
+			while (r != prevR)
+			{
+				img_bgr.at<Vec3b>(r, c)[0] = 0;
+				img_bgr.at<Vec3b>(r, c)[1] = 0;
+				img_bgr.at<Vec3b>(r, c)[2] = 255;
+				r++;
+
+				cout << "r: " << r << " c: " << c << endl;
+			}
+		}
+		
+		if (prevR < r)
+		{
+			while (r != prevR)
+			{
+				img_bgr.at<Vec3b>(r, c)[0] = 0;
+				img_bgr.at<Vec3b>(r, c)[1] = 0;
+				img_bgr.at<Vec3b>(r, c)[2] = 255;
+				r--;
+
+				cout << "r: " << r << " c: " << c << endl;
+			}
+		}
+
+		if (prevC < c)
+		{
+			while (c != prevC)
+			{
+				img_bgr.at<Vec3b>(r, c)[0] = 0;
+				img_bgr.at<Vec3b>(r, c)[1] = 0;
+				img_bgr.at<Vec3b>(r, c)[2] = 255;
+				c--;
+			}
+
+		}
+
+		if (prevC > c)
+		{
+			while (c != prevC)
+			{
+				img_bgr.at<Vec3b>(r, c)[0] = 0;
+				img_bgr.at<Vec3b>(r, c)[1] = 0;
+				img_bgr.at<Vec3b>(r, c)[2] = 255;
+				c++;
+			}
+		}
+		
+		prevC = n->col;
+		prevR = n->row;
+
+		//break;
+
+		//cout << "(" << n->row << ", " << n->col << ") ";
+
+		img_bgr.at<Vec3b>(n->row, n->col)[0] = 0;
+		img_bgr.at<Vec3b>(n->row, n->col)[1] = 0;
+		img_bgr.at<Vec3b>(n->row, n->col)[2] = 255;
+	}
+	//Size size(100, 100);
+	Mat tmp;
+	
+	//resize(tmp, dst, Size(), 0.3, 0.3);
+	//tmp = Mat::zeros(img_bgr.rows * 2, img_bgr.cols * 2, CV_8UC3);
+	imwrite("solved1.png", img_bgr);
+	//cv::namedWindow("Window1");
+	//cv::resizeWindow("Window1", 50, 50);
+	//cv::imshow("Window1", img_bgr);
+	//cv::waitKey(50000);
 }
 
 
@@ -318,7 +416,7 @@ int main()
 	*/
 	
 	
-	Mat img_bgr = imread("simple_maze.jpg");
+	Mat img_bgr = imread("50x50maze.png");
 
 	//Transforming graph into 2D array --------------------------------------------------------------------------------
 	//cout << img_bgr.size().width << endl;
@@ -975,8 +1073,10 @@ int main()
 
 	
 	cout << BFS(adj, visited, adj[0].getHead(), adj[adj.size()-1].getHead(), pred, dist) << endl;
-	printShortestDistance(adj, adj[0].getHead(), adj[adj.size() - 1].getHead());
-	cout << "size: " << pred.size() << endl;
+	list<node*> path;
+	printShortestDistance(adj, path, adj[0].getHead(), adj[adj.size() - 1].getHead());
+	fillMaze(img_bgr, path);
+	cout << "size: " << path.size() << endl;
 	unordered_map<Key, node*>::iterator it = pred.begin();
 	node* curr;
 
