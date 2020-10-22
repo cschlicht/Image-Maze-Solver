@@ -194,9 +194,9 @@ bool BFS(vector<linked_list> adj, unordered_map<Key, bool> visited, node* src, n
 	
 	
 	visited.find(k)->second = true; //we start by visiting the source node
-	cout << "in here" << endl;
-	printKey(visited.find(k)->first);
-	cout << visited.find(k)->second << endl;
+	//cout << "in here" << endl;
+	//printKey(visited.find(k)->first);
+	//cout << visited.find(k)->second << endl;
 	dist.find(k)->second = 0;
 	queue.push_back(src);
 	int i = 0;
@@ -214,7 +214,7 @@ bool BFS(vector<linked_list> adj, unordered_map<Key, bool> visited, node* src, n
 			
 			k = { curr->row, curr->col };
 			//printKey(k);
-			cout << endl;
+			//cout << endl;
 			if (visited.find(k)->second == false) //it has not already been visited
 			{
 				visited.find(k)->second = true;
@@ -300,12 +300,12 @@ void fillMaze(Mat img_bgr, list<node*> path)
 	int c;
 	while (!path.empty())
 	{
-		cout << "prevR: " << prevR << " prevC: " << prevC << endl;
+	//	cout << "prevR: " << prevR << " prevC: " << prevC << endl;
 		n = path.front();
 		path.pop_front();
 		r = n->row;
 		c = n->col;
-		cout << "r: " << r << " c: " << c << endl;
+		//cout << "r: " << r << " c: " << c << endl;
 		if (n->row == -1)
 		{
 			break;
@@ -320,7 +320,7 @@ void fillMaze(Mat img_bgr, list<node*> path)
 				img_bgr.at<Vec3b>(r, c)[2] = 255;
 				r++;
 
-				cout << "r: " << r << " c: " << c << endl;
+				//cout << "r: " << r << " c: " << c << endl;
 			}
 		}
 		
@@ -333,7 +333,7 @@ void fillMaze(Mat img_bgr, list<node*> path)
 				img_bgr.at<Vec3b>(r, c)[2] = 255;
 				r--;
 
-				cout << "r: " << r << " c: " << c << endl;
+				//cout << "r: " << r << " c: " << c << endl;
 			}
 		}
 
@@ -416,7 +416,7 @@ int main()
 	*/
 	
 	
-	Mat img_bgr = imread("50x50maze.png");
+	Mat img_bgr = imread("10x10Maze.png");
 
 	//Transforming graph into 2D array --------------------------------------------------------------------------------
 	//cout << img_bgr.size().width << endl;
@@ -475,6 +475,7 @@ int main()
 
 	*/
 
+	/*
 
 	//Printing out graph in 0's and 1's (0 = Black 1 = White) ---------------------------------------------------------
 	for (int x = 0; x < rowSize; x++)
@@ -486,6 +487,8 @@ int main()
 
 		cout << "\n";
 	}
+
+	*/
 
 
 	//BEGINNING SCAN TO POPULATE ADJACENCY LIST -----------------------------------------------------------------------
@@ -1037,33 +1040,12 @@ int main()
 	}
 	
 	
-	cout << "\n";
-	printAdj(adj);
-	cout << "\n";
+	//cout << "\n";
+	//printAdj(adj);
+	//cout << "\n";
 	cout << "Nodes: " << nodeCount << endl;
 	cout << "Size: " << colSize << " x " << rowSize << endl;
-	//cout << check(adj, 0, 4);
-
-	cout << adj[1].getLength() << endl;
-
-	cout << getPos(adj, 9, 6) << endl;
-
-	unordered_map<Key, bool> test = {
-		{ {1 , 2}, false}
-	};
-	Key d = { 1,2 };
-	cout << "printing key" << endl;
-	printKey(d);
-
-	if (test.find(d) == test.end())
-	{
-		cout << "no";
-	}
-	else {
-		cout << "yes" << endl;
-		test.find(d)->second = true;
-		cout << test.find(d)->second << endl;
-	}
+	
 
 	unordered_map < Key, bool > visited;  
 	int size; 
@@ -1072,61 +1054,20 @@ int main()
 		
 
 	
-	cout << BFS(adj, visited, adj[0].getHead(), adj[adj.size()-1].getHead(), pred, dist) << endl;
+	//cout << BFS(adj, visited, adj[0].getHead(), adj[adj.size()-1].getHead(), pred, dist) << endl;
 	list<node*> path;
 	printShortestDistance(adj, path, adj[0].getHead(), adj[adj.size() - 1].getHead());
 	fillMaze(img_bgr, path);
-	cout << "size: " << path.size() << endl;
+	//cout << "size: " << path.size() << endl;
 	unordered_map<Key, node*>::iterator it = pred.begin();
 	node* curr;
 
-	for (int i = 0; i < adj.size(); i++)
-	{
-		curr = adj[i].getHead();
-		Key k = { curr->row, curr->col };
-		printKey(dist.find(k)->first);
-		cout << dist.find(k)->second <<  endl;
-		
-	}
+
 
 
 	
 
 
-	/*
-		for (int x = 0; x < image.rows; x++)
-		{
-			for (int y = 0; y < image.cols; y++)
-			{
-				cout << image.at<char>(x, y);
-			}
-		}
-		*/
-		/*
-			int maze[5][5] = { 1, 0, 1, 1, 1,
-							  1, 0, 1, 1, 1,
-							  1, 0, 0, 0, 1,
-							  1, 1, 1, 0, 1 };
-
-			for (int i = 0; i < 5; i++)
-			{
-				for (int j = 0; j < 5; j++)
-				{
-					if (maze[i][j] == 1)
-					{
-
-						cout << "#";
-					}
-					else {
-						cout << " ";
-					}
-				}
-
-
-
-				cout << "\n";
-			}
-
-			*/
+	
 	return 0;
 }
