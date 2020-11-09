@@ -31,3 +31,12 @@ It can also be run on mazes of larges sizes.
 
 ### Solution
 ![](/100x100Maze_solved-big.png)
+
+
+# Testing The Program for Yourself
+
+If you would like to run this on larger Mazes, I found a really helpful websites that creates these images at a large scale.
+
+https://keesiemeijer.github.io/maze-generator/#generate
+
+On this website, change wall thickness to 1, Maze entries to top and bottom, and rows and columns to your specified maze size.
