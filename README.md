@@ -9,25 +9,25 @@ An acceptable image must be surrounded with black pixels except for 1 white pixe
 
 ### Example of Acceptable Maze
 
-![Image](/10x10Maze_Image.PNG)
+![](/10x10Maze_Image.PNG)
 
 This image with then be run through an algorithm to determine the shortest possible route.
 
 ### Solution
-![Image](/10x10Maze-solved.png)
+![](/10x10Maze-solved.png)
 
 It can also be run on mazes of larges sizes.
 
 ### 50x50 Maze
-![Image](/50x50maze_image.PNG)
+![](/50x50maze_image.PNG)
 
 
 ### Solution
-![Image](/50x50Maze-solved-big.png)
+![](/50x50Maze-solved-big.png)
 
 
 ### 100x100 Maze
-![Image](/100x100Maze_image.PNG)
+![](/100x100Maze_image.PNG)
 
 ### Solution
-![Image](/100x100Maze-solved-big.png)
+![](/100x100Maze_solved-big.png)
